@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mektubun Var ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:italic,wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0c10; font-family: 'Playfair Display', serif; overflow: hidden; }
+        .container { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); padding: 40px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 450px; text-align: center; }
+        .mektup-baslik { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff4d6d; margin-bottom: 20px; }
+        .romantic-msg { font-size: 1.1rem; line-height: 1.8; color: #f0f0f0; text-align: justify; }
+        .imza { font-family: 'Alex Brush', cursive; font-size: 2rem; color: #ff4d6d; text-align: right; margin-top: 20px; }
+        .h { position: absolute; color: #ff4d6d; pointer-events: none; animation: fly 5s linear forwards; }
+        @keyframes fly { 0% { transform: translateY(110vh); opacity: 0; } 100% { transform: translateY(-10vh); opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mektup-baslik" id="names"></div>
+        <div class="romantic-msg" id="text"></div>
+        <div class="imza" id="signature"></div>
+    </div>
+
+    <script>
+        // Linkteki isimleri otomatik çek
+        const params = new URLSearchParams(window.location.search);
+        const from = params.get('from') || "Onur";
+        const to = params.get('to') || "Canım";
+
+        const audio = new Audio("muzik.mp3");
+        audio.loop = true;
+
+        // Sayfa açılır açılmaz müziği ve mektubu başlat
+        window.onload = () => {
+            document.getElementById('names').innerText = `Canım ${to},`;
+            document.getElementById('signature').innerText = from;
+            document.getElementById('text').innerHTML = `Bu satırları kalbimin en derin köşesinden yazıyorum... Sen benim hayatımdaki en güzel iyikimsin. Seninle geçen her an en kıymetli hazinem. Sevgililer günümüz kutlu olsun bir tanem...`;
+            
+            audio.currentTime = 80;
+            audio.play().catch(() => {
+                console.log("Tarayıcı engelledi, ekrana bir kez tıkla!");
+            });
+            
+            setInterval(createH, 200);
+        };
+
+        function createH() {
+            const h = document.createElement('div');
+            h.className = 'h'; h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }
+        // Eğer müzik çalmazsa ekrana tıklandığında çalması için
+        document.body.onclick = () => { audio.play(); };
+    </script>
+</body>
+</html>

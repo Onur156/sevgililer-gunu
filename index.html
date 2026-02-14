@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Notum Var ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <title>Sana Bir Mektubum Var ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@600&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --rose: #ff4d6d; --dark-bg: #0b0c10; --glass: rgba(255, 255, 255, 0.05); }
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--dark-bg); font-family: 'Montserrat', sans-serif; overflow: hidden; }
         .bg-overlay { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, #1f1121 0%, #0b0c10 100%); z-index: -1; }
-        .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 50px 30px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.8); width: 85%; max-width: 420px; text-align: center; z-index: 10; transition: all 0.8s; }
+        
+        .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 50px 30px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.8); width: 85%; max-width: 450px; text-align: center; z-index: 10; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        
         h1 { font-family: 'Alex Brush', cursive; font-size: 3.5rem; color: var(--rose); margin-bottom: 25px; text-shadow: 0 0 15px rgba(255, 77, 109, 0.4); }
         .input-box { margin-bottom: 20px; }
         input { width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; color: #fff; font-size: 16px; text-align: center; outline: none; box-sizing: border-box; }
-        .btn-send { width: 100%; padding: 16px; background: var(--rose); border: none; border-radius: 18px; color: white; font-weight: 700; font-size: 17px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        #final-screen { display: none; }
-        .couple-title { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #fff; margin: 15px 0; }
-        .romantic-msg { font-size: 1.05rem; line-height: 1.8; color: #e0e0e0; font-weight: 300; }
-        .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; }
+        
+        .btn-send { width: 100%; padding: 16px; background: var(--rose); border: none; border-radius: 18px; color: white; font-weight: 700; font-size: 17px; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
+        .btn-send:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.5); }
+
+        /* Mektup Tasarımı */
+        #final-screen { display: none; text-align: left; padding: 40px 35px; }
+        .mektup-baslik { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--rose); margin-bottom: 20px; text-align: center; }
+        
+        .romantic-msg { 
+            font-family: 'Playfair Display', serif; 
+            font-style: italic;
+            font-size: 1.1rem; 
+            line-height: 1.8; 
+            color: #f0f0f0; 
+            text-align: justify;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Scrollbar güzelleştirme */
+        .romantic-msg::-webkit-scrollbar { width: 3px; }
+        .romantic-msg::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 10px; }
+
+        .imza { font-family: 'Alex Brush', cursive; font-size: 2rem; color: var(--rose); text-align: right; margin-top: 20px; }
+        .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; z-index: 5; }
         @keyframes fly { 0% { transform: translateY(110vh) scale(0.5); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
     </style>
 </head>
@@ -25,21 +48,19 @@
     <div class="bg-overlay"></div>
     
     <div class="container" id="card-init">
-        <h1>Bize Özel...</h1>
+        <h1>Mektubun Var...</h1>
         <div class="input-box"><input type="text" id="me" placeholder="Senin İsmin"></div>
         <div class="input-box"><input type="text" id="you" placeholder="Onun İsmi"></div>
-        <button class="btn-send" id="startBtn">Kalbin Kapısını Aç ❤️</button>
+        <button class="btn-send" id="startBtn">Mektubu Aç ❤️</button>
     </div>
 
     <div class="container" id="final-screen">
-        <div style="font-size: 45px;">🌹</div>
-        <div class="couple-title" id="names"></div>
+        <div class="mektup-baslik" id="names"></div>
         <div class="romantic-msg" id="text"></div>
-        <div style="margin-top: 25px; font-size: 24px;">♾️</div>
+        <div class="imza" id="signature"></div>
     </div>
 
     <script>
-        // Müziği hemen oluştur ve yükle
         const audio = new Audio("muzik.mp3");
         audio.preload = "auto";
         audio.loop = true;
@@ -48,37 +69,30 @@
             const n1 = document.getElementById('me').value;
             const n2 = document.getElementById('you').value;
 
-            if(!n1 || !n2) {
-                alert("Lütfen isimleri girin...");
-                return;
-            }
+            if(!n1 || !n2) return alert("Lütfen isimleri girin...");
 
-            // Müzik Başlatma Ayarı
-            audio.currentTime = 100; // 80. saniyeye sar
-            var playPromise = audio.play();
+            audio.currentTime = 80; 
+            audio.play().catch(e => console.log("Müzik engellendi."));
 
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Müzik çalmaya başladı!
-                    baslatArayuz(n1, n2);
-                }).catch(error => {
-                    // Otomatik oynatma engellendiyse bile arayüzü başlat
-                    console.log("Müzik engellendi, manuel baslatılıyor...");
-                    baslatArayuz(n1, n2);
-                });
-            }
-        });
-
-        function baslatArayuz(n1, n2) {
             document.getElementById('card-init').style.opacity = '0';
+            document.getElementById('card-init').style.transform = 'scale(0.8) translateY(20px)';
+            
             setTimeout(() => {
                 document.getElementById('card-init').style.display = 'none';
                 document.getElementById('final-screen').style.display = 'block';
-                document.getElementById('names').innerText = `${n1} & ${n2}`;
-                document.getElementById('text').innerHTML = `Canım ${n2},<br><br>Hayatımdaki en güzel iyikim sensin. Yanındayken zamanın nasıl geçtiğini anlamıyorum. <br><br>Seni çok seviyorum...`;
+                
+                document.getElementById('names').innerText = `Canım ${n2},`;
+                document.getElementById('text').innerHTML = `
+                    Bu satırları kalbimin en derin köşesinden, sana olan sonsuz sevdamla yazıyorum... <br><br>
+                    Hayatıma girdiğin o ilk günden beri, dünyamın ekseni değişti sanki. Seninle geçen her dakika, ömrüme eklenen en kıymetli hazine oldu. Güldüğünde içimde açan çiçeklerin, gözlerine baktığımda kaybolduğum o huzurun tarifi hiçbir dilde yok. <br><br>
+                    Bazen kelimeler yetmiyor seni ne kadar çok sevdiğimi anlatmaya. Yanındayken zaman dursun istiyorum, uzak kaldığımızda ise saniyeler sanki asır gibi geçiyor. Sen benim bu hayattaki en güzel "iyikim", en huzurlu limanımsın. <br><br>
+                    Seninle yaşlanmak, her sabah seninle yeni bir güne uyanmak ve ellerini hiç bırakmamak tek dileğim. Sevgililer günümüz kutlu olsun bir tanem, iyi ki varsın, iyi ki benimlesin...
+                `;
+                document.getElementById('signature').innerText = n1;
+                
                 setInterval(createH, 200);
-            }, 600);
-        }
+            }, 800);
+        });
 
         function createH() {
             const h = document.createElement('div');

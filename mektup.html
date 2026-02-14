@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mektubun Burada ❤️</title>
+    <title>Sana Bir Notum Var ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:italic,wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         :root { --rose: #ff4d6d; --dark-bg: #0b0c10; --glass: rgba(255, 255, 255, 0.05); }
@@ -12,7 +12,7 @@
         .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 45px 35px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 450px; text-align: left; z-index: 10; animation: fadeIn 1.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .mektup-baslik { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose); margin-bottom: 25px; text-align: center; border-bottom: 1px solid rgba(255, 77, 109, 0.2); padding-bottom: 15px; }
-        .romantic-msg { font-size: 1.15rem; line-height: 1.9; color: #f0f0f0; text-align: justify; font-style: italic; max-height: 400px; overflow-y: auto; }
+        .romantic-msg { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; text-align: center; font-style: italic; }
         .sonsuzluk { text-align: center; margin-top: 30px; font-size: 24px; color: var(--rose); opacity: 0.8; }
         .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; }
         @keyframes fly { 0% { transform: translateY(110vh); opacity: 0; } 100% { transform: translateY(-10vh); opacity: 0; } }
@@ -28,38 +28,40 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const toName = (params.get('to') || "").trim().toLowerCase();
-        const fromName = (params.get('from') || "").trim().toLowerCase();
+        const toName = params.get('to') || "Sevgilim";
         
         const audio = new Audio("muzik.mp3");
         audio.loop = true;
 
-        // --- MEKTUP ARŞİVİ BURASI ---
-        // Buraya istediğin kadar isim ve özel mesaj ekleyebilirsin.
-        const mektupArsivi = {
-            "nergiz": "Seninle geçen her an, bir çiçeğin gökyüzüne bakışı gibi umut dolu. Hayatıma kattığın tüm renkler için teşekkür ederim...",
-            "harun": "Dostluğun veya varlığın hayatımda sarsılmaz bir kale gibi. Yolculuğumuzun her durağı ayrı bir hikaye barındırıyor.",
-            "onur": "Kendine yazdığın bu not, gelecekteki başarılarının bir hatırlatıcısı olsun. Pes etme, her şey güzel olacak.",
-            "asli": "Gözlerindeki o ışık hiç sönmesin. Hayatın sana hep en güzel sürprizlerini sunması dileğiyle..."
-        };
-
-        // Eğer aranan isim listede yoksa çıkacak genel mesaj
-        const genelMesaj = "Hayat sürprizlerle dolu bir yolculuk ve her insanın kalbinde taşımaya değer bir hikayesi vardır. Belki bu mektup senin için yazılmadı ama sevginin paylaşıldıkça çoğaldığını unutma.";
+        // --- ROMANTİK NOT HAVUZU ---
+        // Buraya istediğin kadar kısa ve anlamlı not ekleyebilirsin.
+        const notlar = [
+            "Sen benim gökyüzündeki en parlak yıldızım, yeryüzündeki en huzurlu limanımsın.",
+            "Hayat seninle güzel, aldığım her nefes senin varlığınla anlam kazanıyor.",
+            "Dünyanın en güzel manzarası, senin gülen yüzünden başkası değil.",
+            "Seninle geçen her saniye, ömrüme ömür katan bir mucize gibi.",
+            "Kalbimin tek sahibi, ruhumun en derin köşesindeki en güzel ezgisin.",
+            "İyi ki varsın, iyi ki hayat yolculuğunda ellerim senin ellerinde...",
+            "Seni sevmek, yapılabilecek en güzel ibadet, en huzurlu yolculuk.",
+            "Gözlerinde kaybolmak, dünyanın en güvenli ve en güzel yeri.",
+            "Sen benim dualarımın cevabı, yarınlarımın en güzel umudusun.",
+            "Bir gün değil, her gün; bir an değil, her saniye seninle..."
+        ];
 
         window.onload = () => {
-            // Başlığı düzgün formatla (ilk harf büyük)
-            const formatliIsim = toName.charAt(0).toUpperCase() + toName.slice(1);
-            document.getElementById('names').innerText = `Canım ${formatliIsim},`;
+            // Başlığı yaz
+            document.getElementById('names').innerText = `Canım ${toName},`;
 
-            // Mektubu seç ve ekrana bas
-            const mesaj = mektupArsivi[toName] || genelMesaj;
-            document.getElementById('text').innerHTML = mesaj;
+            // Rastgele bir not seç (Math.random kullanarak)
+            const rastgeleNot = notlar[Math.floor(Math.random() * notlar.length)];
+            document.getElementById('text').innerHTML = rastgeleNot;
             
             audio.currentTime = 100;
             audio.play().catch(() => console.log("Müzik için dokun!"));
             setInterval(createH, 200);
         };
 
+        // Müzik garantisi için tıklama
         document.body.onclick = () => { if (audio.paused) audio.play(); };
 
         function createH() {

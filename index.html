@@ -3,32 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bize Özel ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <title>Sana Bir Notum Var ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0c10; font-family: 'Montserrat', sans-serif; }
-        .container { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); padding: 50px 30px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 400px; text-align: center; }
-        h1 { color: #ff4d6d; margin-bottom: 25px; }
-        input { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; color: #fff; text-align: center; box-sizing: border-box; }
-        button { width: 100%; padding: 16px; background: #ff4d6d; border: none; border-radius: 18px; color: white; font-weight: 700; cursor: pointer; }
+        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0c10; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+        .bg-overlay { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, #1f1121 0%, #0b0c10 100%); z-index: -1; }
+        .container { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); padding: 50px 30px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        h2 { color: #ff4d6d; font-family: 'Alex Brush', cursive; font-size: 2.2rem; margin-bottom: 10px; }
+        p { color: #ccc; font-size: 0.9rem; margin-bottom: 25px; }
+        input { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; color: #fff; text-align: center; outline: none; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: #ff4d6d; }
+        button { width: 100%; padding: 16px; background: #ff4d6d; border: none; border-radius: 18px; color: white; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4); }
     </style>
 </head>
 <body>
+    <div class="bg-overlay"></div>
     <div class="container">
-        <h1>Giriş Yap...</h1>
+        <h2>Aşağıyı doldur...</h2>
+        <p>belki bir mektubun vardır</p>
         <input type="text" id="me" placeholder="Senin İsmin">
         <input type="text" id="you" placeholder="Onun İsmi">
-        <button onclick="gitMektuba()">Kalbin Kapısını Aç ❤️</button>
+        <button onclick="gitMektuba()">Mektubu Ara ❤️</button>
     </div>
 
     <script>
         function gitMektuba() {
             const n1 = document.getElementById('me').value;
             const n2 = document.getElementById('you').value;
-            if(!n1 || !n2) return alert("İsimleri yazmalısın...");
-            
-            // İsimleri linke ekleyip mektup.html'e gönderiyoruz
-            window.location.href = `mektup.html?from=${encodeURIComponent(n1)}&to=${encodeURIComponent(n2)}`;
+            if(!n1 || !n2) return alert("Lütfen isimleri eksiksiz girin...");
+            window.location.href = `./mektup.html?from=${encodeURIComponent(n1)}&to=${encodeURIComponent(n2)}`;
         }
     </script>
 </body>

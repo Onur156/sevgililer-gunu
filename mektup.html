@@ -3,84 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Mektubum Var ❤️</title>
+    <title>Mektubun Burada ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:italic,wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         :root { --rose: #ff4d6d; --dark-bg: #0b0c10; --glass: rgba(255, 255, 255, 0.05); }
         body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--dark-bg); font-family: 'Playfair Display', serif; overflow: hidden; }
         .bg-overlay { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, #1f1121 0%, #0b0c10 100%); z-index: -1; }
-        
-        .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 45px 35px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 40px 100px rgba(0,0,0,0.8); width: 85%; max-width: 450px; text-align: left; z-index: 10; animation: fadeIn 1.5s ease; }
-        
+        .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 45px 35px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 450px; text-align: left; z-index: 10; animation: fadeIn 1.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .mektup-baslik { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose); margin-bottom: 25px; text-align: center; border-bottom: 1px solid rgba(255, 77, 109, 0.2); padding-bottom: 15px; }
-        
-        .romantic-msg { 
-            font-size: 1.15rem; 
-            line-height: 1.9; 
-            color: #f0f0f0; 
-            text-align: justify;
-            font-style: italic;
-            max-height: 450px;
-            overflow-y: auto;
-            padding-right: 15px;
-        }
-
-        /* Scrollbar tasarımı */
-        .romantic-msg::-webkit-scrollbar { width: 3px; }
-        .romantic-msg::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 10px; }
-
+        .romantic-msg { font-size: 1.15rem; line-height: 1.9; color: #f0f0f0; text-align: justify; font-style: italic; max-height: 450px; overflow-y: auto; }
         .sonsuzluk { text-align: center; margin-top: 30px; font-size: 24px; color: var(--rose); opacity: 0.8; }
-        
-        .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; z-index: 5; }
-        @keyframes fly { 0% { transform: translateY(110vh) scale(0.5); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
+        .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; }
+        @keyframes fly { 0% { transform: translateY(110vh); opacity: 0; } 100% { transform: translateY(-10vh); opacity: 0; } }
     </style>
 </head>
 <body>
     <div class="bg-overlay"></div>
-    
     <div class="container">
         <div class="mektup-baslik" id="names"></div>
-        <div class="romantic-msg">
-            Bu satırları kalbimin en derin köşesinden, sana olan sonsuz hayranlığımla yazıyorum. Hayatıma girdiğin o ilk andan itibaren, dünyamın bütün renkleri daha parlak, aldığım her nefes daha anlamlı hale geldi. Seninle geçen her dakika, ömrüme eklenen en kıymetli hediye benim için.<br><br>
-            Varlığın, en karanlık günlerimde yolumu aydınlatan bir ışık gibi... Güldüğünde içimde açan çiçeklerin kokusunu duyuyorum sanki. Gözlerine baktığımda hissettiğim o huzuru, sesini duyduğumda kalbimin ritminin değişmesini anlatmaya kelimeler yetmiyor. Sen benim sadece sevdiğim değil, sığındığım en güvenli limanımsın.<br><br>
-            Bazen düşünüyorum da, seni tanımadan önce eksikmişim gibi. Seninle tamamlandım, seninle ben oldum. Elini tuttuğumda dünyayı fethedecekmişim gibi hissedişim, dizine yattığımda tüm dertlerimi unutuşum... Hepsi senin mucizen. <br><br>
-            Gelecekteki her hayalimde başrol sensin. Seninle yaşlanmak, her sabah yüzündeki o eşsiz huzura uyanmak tek dileğim. Sevgililer günümüz kutlu olsun bir tanem, iyi ki varsın, iyi ki hayatımdasın...
-        </div>
+        <div class="romantic-msg" id="text"></div>
         <div class="sonsuzluk">♾️</div>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const to = params.get('to') || "Sevgilim";
-
+        const toName = params.get('to') || "";
         const audio = new Audio("muzik.mp3");
         audio.loop = true;
 
+        // BURAYI DÜZENLE: Hangi isim yazılırsa o özel mektup çıksın?
+        const ozelIsim = "Ayşe"; // Buraya onun ismini yaz (Küçük/büyük harf duyarlı olabilir)
+
         window.onload = () => {
-            document.getElementById('names').innerText = `Canım ${to},`;
+            document.getElementById('names').innerText = `Canım ${toName},`;
+            const textElement = document.getElementById('text');
+
+            if (toName.toLowerCase() === ozelIsim.toLowerCase()) {
+                // SEVGİLİNE GİDECEK ÖZEL MEKTUP
+                textElement.innerHTML = `Sen benim hayatımdaki en güzel iyikimsin. Seninle geçen her dakika, ömrüme eklenen en kıymetli hazine oldu. Güldüğünde içimde açan çiçeklerin tarifi yok. Seninle yaşlanmak, her sabah seninle yeni bir güne uyanmak tek dileğim. İyi ki varsın...`;
+            } else {
+                // BAŞKASI GİRERSE GÖRECEĞİ GENEL MEKTUP
+                textElement.innerHTML = `Hayat sürprizlerle dolu bir yolculuk ve her insanın kalbinde taşımaya değer bir hikayesi vardır. Belki bu mektup senin için yazılmadı ama sevginin paylaşıldıkça çoğaldığını unutma. Kendi masalının kahramanı olman dileğiyle...`;
+            }
             
-            audio.currentTime = 100;
-            // Tarayıcı etkileşimi için ilk tıklamada çalmayı garantile
-            audio.play().catch(() => {
-                console.log("Müzik için bir etkileşim bekleniyor.");
-            });
-            
+            audio.currentTime = 80;
+            audio.play().catch(() => console.log("Müzik için dokun!"));
             setInterval(createH, 200);
         };
 
-        // Kullanıcı sayfada herhangi bir yere tıkladığında (eğer çalmadıysa) müzik başlar
-        document.body.onclick = () => { 
-            if (audio.paused) audio.play(); 
-        };
+        document.body.onclick = () => { if (audio.paused) audio.play(); };
 
         function createH() {
             const h = document.createElement('div');
             h.className = 'h'; h.innerHTML = '❤️';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            h.style.animationDuration = (Math.random() * 2 + 3) + 's';
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 5000);
         }

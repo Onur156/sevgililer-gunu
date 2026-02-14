@@ -12,7 +12,7 @@
         .container { position: relative; background: var(--glass); backdrop-filter: blur(20px); padding: 45px 35px; border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 450px; text-align: left; z-index: 10; animation: fadeIn 1.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .mektup-baslik { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose); margin-bottom: 25px; text-align: center; border-bottom: 1px solid rgba(255, 77, 109, 0.2); padding-bottom: 15px; }
-        .romantic-msg { font-size: 1.15rem; line-height: 1.9; color: #f0f0f0; text-align: justify; font-style: italic; max-height: 450px; overflow-y: auto; }
+        .romantic-msg { font-size: 1.15rem; line-height: 1.9; color: #f0f0f0; text-align: justify; font-style: italic; max-height: 400px; overflow-y: auto; }
         .sonsuzluk { text-align: center; margin-top: 30px; font-size: 24px; color: var(--rose); opacity: 0.8; }
         .h { position: absolute; color: var(--rose); pointer-events: none; animation: fly 5s linear forwards; }
         @keyframes fly { 0% { transform: translateY(110vh); opacity: 0; } 100% { transform: translateY(-10vh); opacity: 0; } }
@@ -28,24 +28,32 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const toName = params.get('to') || "";
+        const toName = (params.get('to') || "").trim().toLowerCase();
+        const fromName = (params.get('from') || "").trim().toLowerCase();
+        
         const audio = new Audio("muzik.mp3");
         audio.loop = true;
 
-        // BURAYI DÜZENLE: Hangi isim yazılırsa o özel mektup çıksın?
-        const ozelIsim = "Ayşe"; // Buraya onun ismini yaz (Küçük/büyük harf duyarlı olabilir)
+        // --- MEKTUP ARŞİVİ BURASI ---
+        // Buraya istediğin kadar isim ve özel mesaj ekleyebilirsin.
+        const mektupArsivi = {
+            "nergiz": "Seninle geçen her an, bir çiçeğin gökyüzüne bakışı gibi umut dolu. Hayatıma kattığın tüm renkler için teşekkür ederim...",
+            "harun": "Dostluğun veya varlığın hayatımda sarsılmaz bir kale gibi. Yolculuğumuzun her durağı ayrı bir hikaye barındırıyor.",
+            "onur": "Kendine yazdığın bu not, gelecekteki başarılarının bir hatırlatıcısı olsun. Pes etme, her şey güzel olacak.",
+            "asli": "Gözlerindeki o ışık hiç sönmesin. Hayatın sana hep en güzel sürprizlerini sunması dileğiyle..."
+        };
+
+        // Eğer aranan isim listede yoksa çıkacak genel mesaj
+        const genelMesaj = "Hayat sürprizlerle dolu bir yolculuk ve her insanın kalbinde taşımaya değer bir hikayesi vardır. Belki bu mektup senin için yazılmadı ama sevginin paylaşıldıkça çoğaldığını unutma.";
 
         window.onload = () => {
-            document.getElementById('names').innerText = `Canım ${toName},`;
-            const textElement = document.getElementById('text');
+            // Başlığı düzgün formatla (ilk harf büyük)
+            const formatliIsim = toName.charAt(0).toUpperCase() + toName.slice(1);
+            document.getElementById('names').innerText = `Canım ${formatliIsim},`;
 
-            if (toName.toLowerCase() === ozelIsim.toLowerCase()) {
-                // SEVGİLİNE GİDECEK ÖZEL MEKTUP
-                textElement.innerHTML = `Sen benim hayatımdaki en güzel iyikimsin. Seninle geçen her dakika, ömrüme eklenen en kıymetli hazine oldu. Güldüğünde içimde açan çiçeklerin tarifi yok. Seninle yaşlanmak, her sabah seninle yeni bir güne uyanmak tek dileğim. İyi ki varsın...`;
-            } else {
-                // BAŞKASI GİRERSE GÖRECEĞİ GENEL MEKTUP
-                textElement.innerHTML = `Hayat sürprizlerle dolu bir yolculuk ve her insanın kalbinde taşımaya değer bir hikayesi vardır. Belki bu mektup senin için yazılmadı ama sevginin paylaşıldıkça çoğaldığını unutma. Kendi masalının kahramanı olman dileğiyle...`;
-            }
+            // Mektubu seç ve ekrana bas
+            const mesaj = mektupArsivi[toName] || genelMesaj;
+            document.getElementById('text').innerHTML = mesaj;
             
             audio.currentTime = 100;
             audio.play().catch(() => console.log("Müzik için dokun!"));

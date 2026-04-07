@@ -35,6 +35,7 @@ body {
     backdrop-filter: blur(10px);
 }
 
+/* BUTONLAR */
 button {
     padding: 15px 25px;
     font-size: 18px;
@@ -56,17 +57,17 @@ button {
     position: absolute;
 }
 
-/* Kalp animasyonu */
+/* KALP YAĞMURU */
 .heart {
     position: absolute;
     color: red;
     font-size: 20px;
-    animation: explode 1s ease-out forwards;
+    animation: fall 4s linear forwards;
 }
 
-@keyframes explode {
-    0% {transform: scale(1) translate(0,0); opacity:1;}
-    100% {transform: scale(2) translate(var(--x), var(--y)); opacity:0;}
+@keyframes fall {
+    from { transform: translateY(-50px); opacity:1; }
+    to { transform: translateY(100vh); opacity:0; }
 }
 </style>
 </head>
@@ -91,20 +92,79 @@ allow="autoplay">
 <script>
 let step = 0;
 let noCount = 0;
-let yesScale = 1;
+let noScale = 1;
 
 /* EVET */
 function nextStep() {
     step++;
-    yesScale += 0.2;
-    document.getElementById("yesBtn").style.transform = "scale(" + yesScale + ")";
-
     const q = document.getElementById("question");
     const m = document.getElementById("message");
+
+    heartRain();
 
     if (step === 1) q.innerText = "Çok mu seviyorsun? 😍";
     else if (step === 2) q.innerText = "Ne kadar çok seviyorsun? 💕";
     else if (step === 3) q.innerText = "Neden beni seviyorsun? 🥺";
+    else if (step === 4) {
+        q.style.display = "none";
+        document.getElementById("yesBtn").style.display = "none";
+        document.getElementById("noBtn").style.display = "none";
+
+        m.innerHTML = `
+        Esma ❤️<br><br>
+        Sen benim hayatımda olan en güzel şeysin.  
+        Seninle konuşmak bile bana huzur veriyor.  
+        Gülüşün her şeyi güzelleştiriyor.  
+        İyi ki varsın ve iyi ki benimlesin.  
+        Seni gerçekten çok seviyorum 💖
+        `;
+    }
+}
+
+/* HAYIR */
+function moveNo() {
+    noCount++;
+    noScale += 0.3;
+
+    const btn = document.getElementById("noBtn");
+    btn.style.transform = "scale(" + noScale + ")";
+
+    const positions = [
+        {x:0, y:0},
+        {x:window.innerWidth-120, y:0},
+        {x:0, y:window.innerHeight-60},
+        {x:window.innerWidth-120, y:window.innerHeight-60}
+    ];
+
+    if (noCount <= 4) {
+        btn.style.left = positions[noCount-1].x + "px";
+        btn.style.top = positions[noCount-1].y + "px";
+    } else {
+        btn.style.display = "none";
+    }
+
+    heartRain();
+}
+
+/* KALP YAĞMURU */
+function heartRain() {
+    for (let i = 0; i < 50; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = (Math.random()*20+15) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>heart.remove(),4000);
+    }
+}
+</script>
+
+</body>
+</html>    else if (step === 3) q.innerText = "Neden beni seviyorsun? 🥺";
     else if (step === 4) {
         q.style.display = "none";
         document.getElementById("yesBtn").style.display = "none";

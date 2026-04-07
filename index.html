@@ -33,10 +33,7 @@ body {
     padding: 40px;
     border-radius: 20px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
 }
-
-h1 { font-size: 32px; }
 
 button {
     padding: 15px 25px;
@@ -45,16 +42,12 @@ button {
     border: none;
     cursor: pointer;
     margin: 10px;
+    transition: 0.3s;
 }
 
 #yesBtn {
     background: linear-gradient(45deg, #ff4d6d, #ff85a1);
     color: white;
-    box-shadow: 0 0 15px rgba(255, 77, 109, 0.7);
-}
-
-#yesBtn:hover {
-    transform: scale(1.1);
 }
 
 #noBtn {
@@ -63,34 +56,26 @@ button {
     position: absolute;
 }
 
-#message {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.sparkle {
+/* Kalp animasyonu */
+.heart {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: white;
-    border-radius: 50%;
-    animation: sparkleAnim linear infinite;
+    color: red;
+    font-size: 20px;
+    animation: explode 1s ease-out forwards;
 }
 
-@keyframes sparkleAnim {
-    from { transform: translateY(0); opacity:1; }
-    to { transform: translateY(-800px); opacity:0; }
+@keyframes explode {
+    0% {transform: scale(1) translate(0,0); opacity:1;}
+    100% {transform: scale(2) translate(var(--x), var(--y)); opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- YouTube müzik -->
-<iframe id="music"
-width="0" height="0"
+<!-- Müzik -->
+<iframe width="0" height="0"
 src="https://www.youtube.com/embed/rYJjgfCfBOU?autoplay=1&loop=1&playlist=rYJjgfCfBOU&start=100"
-frameborder="0"
 allow="autoplay">
 </iframe>
 
@@ -98,22 +83,28 @@ allow="autoplay">
     <h1 id="question">Beni seviyor musun? ❤️</h1>
 
     <button id="yesBtn" onclick="nextStep()">Evet 💖</button>
-    <button id="noBtn" onmouseover="moveButton()">Hayır 😏</button>
+    <button id="noBtn" onclick="moveNo()">Hayır 😏</button>
 
     <div id="message"></div>
 </div>
 
 <script>
 let step = 0;
+let noCount = 0;
+let yesScale = 1;
 
+/* EVET */
 function nextStep() {
     step++;
+    yesScale += 0.2;
+    document.getElementById("yesBtn").style.transform = "scale(" + yesScale + ")";
+
     const q = document.getElementById("question");
     const m = document.getElementById("message");
 
     if (step === 1) q.innerText = "Çok mu seviyorsun? 😍";
     else if (step === 2) q.innerText = "Ne kadar çok seviyorsun? 💕";
-    else if (step === 3) q.innerText = "Sonsuza dek benimle misin?";
+    else if (step === 3) q.innerText = "Neden beni seviyorsun? 🥺";
     else if (step === 4) {
         q.style.display = "none";
         document.getElementById("yesBtn").style.display = "none";
@@ -121,37 +112,55 @@ function nextStep() {
 
         m.innerHTML = `
         Esma ❤️<br><br>
-        Seni anlatmak gerçekten kolay değil çünkü sen benim için çok özelsin.  
-        Sen benim en güzel alışkanlığım, en huzurlu yerimsin.  
-        Seninle geçen her an benim için çok değerli.  
-        Gülüşün bile her şeyi güzelleştiriyor.  
-        İyi ki varsın ve iyi ki benimlesin 💖
+        Sen benim hayatımda olan en güzel şeysin.  
+        Seninle konuşmak bile bana huzur veriyor.  
+        Senin gülüşün her şeyi güzelleştiriyor.  
+        İyi ki varsın ve iyi ki benimlesin.  
+        Seni gerçekten çok seviyorum 💖
         `;
     }
 }
 
-/* Hayır butonu kaçıyor */
-function moveButton() {
+/* HAYIR */
+function moveNo() {
+    noCount++;
+
     const btn = document.getElementById("noBtn");
-    btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+
+    const positions = [
+        {x:0, y:0},
+        {x:window.innerWidth-100, y:0},
+        {x:0, y:window.innerHeight-50},
+        {x:window.innerWidth-100, y:window.innerHeight-50}
+    ];
+
+    if (noCount <= 4) {
+        btn.style.left = positions[noCount-1].x + "px";
+        btn.style.top = positions[noCount-1].y + "px";
+    } else {
+        btn.style.display = "none";
+    }
+
+    createHearts();
 }
 
-/* Parıltı */
-function sparkle() {
-    const s = document.createElement("div");
-    s.className = "sparkle";
-    s.style.left = Math.random() * window.innerWidth + "px";
-    s.style.top = window.innerHeight + "px";
-    s.style.animationDuration = (Math.random()*3+2)+"s";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),5000);
-}
-setInterval(sparkle,150);
+/* Kalp patlatma */
+function createHearts() {
+    for (let i = 0; i < 10; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
 
-/* PWA */
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+        heart.style.left = window.innerWidth/2 + "px";
+        heart.style.top = window.innerHeight/2 + "px";
+
+        heart.style.setProperty('--x', (Math.random()*400-200)+"px");
+        heart.style.setProperty('--y', (Math.random()*400-200)+"px");
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>heart.remove(),1000);
+    }
 }
 </script>
 
